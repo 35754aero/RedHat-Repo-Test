@@ -12,4 +12,7 @@ RUN chmod +x /usr/local/bin/sync_repos.sh
 
 WORKDIR /mnt/repos
 
+FROM base AS debug
+RUN echo "Entering debug shell" && /bin/bash
+
 ENTRYPOINT ["/usr/local/bin/sync_repos.sh"]
