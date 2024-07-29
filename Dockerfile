@@ -1,18 +1,7 @@
-FROM registry.access.redhat.com/ubi8/ubi:latest
+FROM mcr.microsoft.com/windows/server:ltsc2022
 
-RUN subscription-manager register --username ${username} --password ${password} --auto-attach
+WORKDIR /scripts
 
-RUN yum -y update && \
-    yum -y install yum-utils createrepo
+COPY download_updates.ps1 .
 
-RUN mkdir -p /mnt/repos
-
-COPY sync_repos.sh /usr/local/bin/sync_repos.sh
-RUN chmod +x /usr/local/bin/sync_repos.sh
-
-WORKDIR /mnt/repos
-
-FROM base AS debug
-RUN echo "Entering debug shell" && /bin/bash
-
-ENTRYPOINT ["/usr/local/bin/sync_repos.sh"]
+ENTRYPOINT ["powershell.exe", "-File", "download_updates.ps1"]
