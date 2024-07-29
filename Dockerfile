@@ -1,5 +1,7 @@
 FROM registry.access.redhat.com/ubi8/ubi:latest
 
+RUN subscription-manager register --username ${username} --password ${password} --auto-attach
+
 RUN yum -y update && \
     yum -y install yum-utils createrepo
 
